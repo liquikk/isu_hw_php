@@ -1,0 +1,124 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #CCFF99;
+}
+.main{
+    border: 2px solid black;
+    width: 920px;
+    background-color: #fff;
+    padding-top: 5px;
+}
+
+.main_edit{
+    border: 2px solid black;
+    width: 500px;
+    background-color: #fff;
+}
+
+.edit_form{
+    margin-left: 10px;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #f1f1f1;
+}
+.create{
+    margin: 20px;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    padding: 5px 0 5px 0;
+}
+
+input[type="number"],
+input[type="datetime-local"],
+select{
+    width: 31%;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+
+input[type="text"],
+textarea {
+    width: 80%;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+a {
+    margin-right: 10px;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+h1, h2 {
+    margin-left: 20px;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-links {
+    display: flex;
+    gap: 10px;
+}
+.back{
+    margin-right: 20px;
+    margin-top: 30px;
+    float: right;
+}
+.typ{
+    min-width: 50px;
+}
+.zad{
+    min-width: 180px;
+}
+.mes{
+    min-width: 60px;
+}
+.dat{
+    min-width: 75px;
+}
+.dli{
+    min-width: 50px;
+}
+.com{
+    min-width: 120px;
+}
+.sta{
+    min-width: 25px;
+}
+.dei{
+    min-width: 100px;
+}
