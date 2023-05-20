@@ -5,6 +5,23 @@ if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
   exit;
 }
 
+
+# Обновляем время последней активности
+if (!isset($_SESSION['last_activity'])) {
+  $_SESSION['last_activity'] = time();
+}
+
+# Сколько времени прошло с момента последней активности
+$inactiveTime = (time() - ($_SESSION['last_activity']));
+
+# Если прошло более 1 мин бездействия, разлогиниваем пользователя
+if ($inactiveTime > 60) {
+  session_destroy();
+  header('Location: login.php');
+  session_write_close();
+  exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'logout') {
   session_destroy();
   header('Location: login.php');

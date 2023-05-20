@@ -111,28 +111,20 @@ if (!in_array(session_id(), $_SESSION['users'])) {
 }
 echo 'Количество пользователей по сессиям: ' . count($_SESSION['users']);
 echo '<br/>';
-$ip = $_SERVER['REMOTE_ADDR'];
-$filename = 'unique_visitors.txt';
 
-$uniqueVisitors = array();
-if (file_exists($filename)) {
-    $uniqueVisitors = unserialize(file_get_contents($filename));
+$ip = $_SERVER['REMOTE_ADDR'];
+if (!isset($_SESSION['visitors']) || !in_array($ip, $_SESSION['visitors'])) {
+    $_SESSION['visitors'][] = $ip;
 }
-if (!in_array($ip, $uniqueVisitors)) {
-    $uniqueVisitors[] = $ip;
-}
-file_put_contents($filename, serialize($uniqueVisitors));
-echo 'Количество уникальных посетителей: ' . count($uniqueVisitors);
+echo 'Количество уникальных посетителей: ' . count($_SESSION['visitors']);
 echo '<br/>';
 
-$filename = 'page_hits.txt';
-$pageHits = 0;
-if (file_exists($filename)) {
-    $pageHits = file_get_contents($filename);
+if (isset($_SESSION['page_views'])) {
+  $_SESSION['page_views']++;
+} else {
+  $_SESSION['page_views'] = 1;
 }
-$pageHits++;
-file_put_contents($filename, $pageHits);
-echo 'Количество загрузок страницы: ' . $pageHits;
+echo 'Количество загрузок страницы: ' . $_SESSION['page_views'];
 
 if(isset($_GET['success']) && $_GET['success'] == '1'){
     echo '<script>alert("Заявка успешно отправлена!");</script>';
