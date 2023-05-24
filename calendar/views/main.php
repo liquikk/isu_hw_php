@@ -9,11 +9,6 @@
     <div class="main">
     <div class="header">
     <h1>Мой календарь</h1>
-    <div class="header-links">
-    <a href="index.php?action=overdueTasks">Просмотреть просроченные задачи</a>
-    <a href="index.php?action=completedTasks">Просмотреть выполненные задачи</a>
-    </div>
-    </div>
     <h2>Создать задачу</h2>
     <form action="index.php?action=createTask" method="post" class="create">
         <label for="subject">Тема:</label>
@@ -33,7 +28,7 @@
         <label for="datetime">Дата и время:</label>
         <input type="datetime-local" id="datetime" name="datetime" required><br>
 
-        <label for="duration">Длительность:</label>
+        <label for="duration">Длительность (в минутах):</label>
         <input type="number" id="duration" name="duration"><br>
 
         <label for="comment">Комментарий:</label>
@@ -41,14 +36,80 @@
 
         <input type="submit" value="Создать">
     </form>
-    <h2>Текущие задачи</h2>
+    <h2>
+    <?php
+    $filter = isset($_GET['filter']) ? $_GET['filter'] : '';
+    $action = isset($_GET['action']) ? $_GET['action'] : '';
+    $date = isset($_GET['date']) ? $_GET['date'] : '';
+
+    switch ($action) {
+        case 'todayTasks':
+            echo 'Задачи на сегодня';
+            break;
+        case 'tomorrowTasks':
+            echo 'Задачи на завтра';
+            break;
+        case 'currentWeekTasks':
+            echo 'Задачи на эту неделю';
+            break;
+        case 'nextWeekTasks':
+            echo 'Задачи на следующуй неделю';
+            break;
+        case 'searchTasks':
+            echo 'Задачи на ' . $date;
+            break;
+        default:
+            switch ($filter) {
+                case 'all':
+                    echo 'Все задачи';
+                    break;
+                case 'current':
+                    echo 'Текущие задачи';
+                    break;
+                case 'overdue':
+                    echo 'Просроченные задачи';
+                    break;
+                case 'completed':
+                    echo 'Выполненные задачи';
+                    break;
+                default:
+                    echo 'Все задачи';
+                    break;
+            }
+            break;
+    }
+    ?>
+    </h2>
+<div class='fifa'>
+<form method="GET" action="index.php">
+    <select id="task-filter" name="filter">
+        <option value="">Выберите список</option>
+        <option value="all">Все задачи</option>
+        <option value="current">Текущие</option>
+        <option value="overdue">Просроченные</option>
+        <option value="completed">Выполненные</option>
+    </select>
+    <input type="hidden" name="action" value="filterTasks">
+    </form>
+    <form method="GET" action="index.php">
+        <input type="date" id="search-date" name="date" required>
+        <input class='btn_search' type="submit" value="Искать">
+        <input type="hidden" name="action" value="searchTasks">
+    </form>
+    <div class="choice">
+        <a href="index.php?action=todayTasks">Сегодня</a>
+        <a href="index.php?action=tomorrowTasks">Завтра</a>
+        <a href="index.php?action=currentWeekTasks">На этой неделе</a>
+        <a href="index.php?action=nextWeekTasks">На след. неделе</a>
+    </div>
+</div>
     <table>
     <tr>
         <th class="typ">Тип</th>
         <th class="zad">Задача</th>
         <th class="mes">Место</th>
         <th class="dat">Дата и время</th>
-        <th class="dli">Длительность</th>
+        <th class="dli">Длительность, мин.</th>
         <th class="com">Комментарий</th>
         <th class="sta">Статус</th>
         <th class="dei">Действия</th>
@@ -68,13 +129,17 @@
                 </form>
             </td>
             <td>
-                <a href="index.php?action=editTask&id=<?php echo $task['id']; ?>">Редактировать</a>
-                <a href="index.php?action=deleteTask&id=<?php echo $task['id']; ?>">Удалить</a>
+                <a class='act' href="index.php?action=editTask&id=<?php echo $task['id']; ?>">Редактировать</a>
+                <a class='act' href="index.php?action=deleteTask&id=<?php echo $task['id']; ?>">Удалить</a>
             </td>
         </tr>
     <?php endforeach; ?>
 </table>
 </div>
-
+<script>
+    document.getElementById('task-filter').addEventListener('change', function() {
+        this.form.submit();
+    });
+</script>
 </body>
 </html>

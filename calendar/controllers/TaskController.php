@@ -1,4 +1,3 @@
-
 <?php
 
 class TaskController {
@@ -62,20 +61,11 @@ class TaskController {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $this->model->deleteTask($id);
-            header('Location: index.php');
+            $page = $_SERVER['HTTP_REFERER'];
+            header("Location: $page");
         } else {
             echo 'Не указан идентификатор задачи.';
         }
-    }
-
-    public function overdueTasks() {
-        $tasks = $this->model->getOverdueTasks();
-        include 'views/overdue.php';
-    }
-
-    public function completedTasks() {
-        $tasks = $this->model->getCompletedTasks();
-        include 'views/completed.php';
     }
 
     public function markTaskComplete() {
@@ -90,6 +80,51 @@ class TaskController {
 
         $this->model->updateTaskStatus($taskId, $status);
 
-        header('Location: index.php');
+        $page = $_SERVER['HTTP_REFERER'];
+
+        header("Location: $page");
+
     }
+
+    public function showTodayTasks() {
+        $tasks = $this->model->getTasksByDate(date('Y-m-d'));
+        include 'views/main.php';
+    }
+
+    public function showTomorrowTasks() {
+        $tomorrow = date('Y-m-d', strtotime('+1 day'));
+        $tasks = $this->model->getTasksByDate($tomorrow);
+        include 'views/main.php';
+    }
+    public function showCurrentWeekTasks() {
+        $tasks = $this->model->getTasksForCurrentWeek();
+        include 'views/main.php';
+    }
+    
+    public function showNextWeekTasks() {
+        $tasks = $this->model->getTasksForNextWeek();
+        include 'views/main.php';
+    }
+    public function searchTasks($date) {
+        $tasks = $this->model->getTasksByDate($date);
+        include 'views/main.php';
+    }
+    public function filterTasks($filter) {
+        switch ($filter) {
+            case 'current':
+                $tasks = $this->model->getCurrentTasks();
+                break;
+            case 'overdue':
+                $tasks = $this->model->getOverdueTasks();
+                break;
+            case 'completed':
+                $tasks = $this->model->getCompletedTasks();
+                break;
+            default:
+                $tasks = $this->model->getTasks();
+                break;
+        }
+        include 'views/main.php';
+    }
+    
 }

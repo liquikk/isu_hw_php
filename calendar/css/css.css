@@ -22,15 +22,29 @@ body{
     padding: 10px;
 }
 
+.fifa{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+#task-filter{
+    width: 200px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
+    table-layout: fixed;
+    width: 100%;
 }
 
 th, td {
     padding: 8px;
     border: 1px solid #ccc;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 th {
@@ -56,6 +70,13 @@ select{
     border: 1px solid #ccc;
 }
 
+input[type="date"]{
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 4px;
+    margin-left: 20px;
+}
 
 input[type="text"],
 textarea {
@@ -83,42 +104,50 @@ h1, h2 {
     margin-left: 20px;
 }
 
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.header-links {
-    display: flex;
-    gap: 10px;
-}
 .back{
     margin-right: 20px;
     margin-top: 30px;
     float: right;
 }
-.typ{
-    min-width: 50px;
+.choice{
+    margin-left: 120px;
+}
+
+.btn_search{
+    margin-left: 5px;
+    padding: 6px 14px !important;
+}
+
+.act{
+    margin: 0;
+}
+
+tr:hover {
+    background-color: #4caf4f46; 
+  }
+
+/* .typ{
+    max-width: 50px;
 }
 .zad{
     min-width: 180px;
 }
 .mes{
-    min-width: 60px;
+    max-width: 60px;
 }
 .dat{
     min-width: 75px;
-}
+} */
 .dli{
-    min-width: 50px;
+    width: 107px;
 }
 .com{
-    min-width: 120px;
+    width: 120px;
 }
 .sta{
-    min-width: 25px;
+    width: 55px;
 }
 .dei{
-    min-width: 100px;
+    width: 109px;
+    
 }

@@ -17,7 +17,7 @@ class Task {
     }
 
     public function getTasks() {
-        $query = "SELECT * FROM tasks";
+        $query = "SELECT * FROM tasks ORDER BY datetime";
         $result = $this->db->query($query);
         $tasks = [];
         while ($row = $result->fetch_assoc()) {
@@ -57,7 +57,7 @@ class Task {
 
     public function getOverdueTasks() {
         $currentDateTime = date('Y-m-d H:i:s');
-        $query = "SELECT * FROM tasks WHERE datetime < ? and status = 0";
+        $query = "SELECT * FROM tasks WHERE datetime < ? and status = 0  ORDER BY datetime";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("s", $currentDateTime);
         $stmt->execute();
@@ -72,7 +72,7 @@ class Task {
 
 
     public function getCompletedTasks() {
-        $query = "SELECT * FROM tasks WHERE status = '1'";
+        $query = "SELECT * FROM tasks WHERE status = '1'  ORDER BY datetime";
         $result = $this->db->query($query);
         $tasks = [];
         while ($row = $result->fetch_assoc()) {
@@ -91,4 +91,68 @@ class Task {
         $stmt->close();
     }
     
+    public function getTasksByDate($date) {
+        $query = "SELECT * FROM tasks WHERE DATE(datetime) = ? and status = 0  ORDER BY datetime";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $date);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tasks = [];
+        while ($row = $result->fetch_assoc()) {
+            $tasks[] = $row;
+        }
+        $stmt->close();
+        return $tasks;
+    }
+
+    public function getTasksForCurrentWeek() {
+        $startOfWeek = date('Y-m-d', strtotime('this week'));
+        $endOfWeek = date('Y-m-d', strtotime('this week +6 days'));
+    
+        $query = "SELECT * FROM tasks WHERE DATE(datetime) BETWEEN ? AND ? AND status = 0 ORDER BY datetime";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $startOfWeek, $endOfWeek);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tasks = [];
+        while ($row = $result->fetch_assoc()) {
+            $tasks[] = $row;
+        }
+        $stmt->close();
+        return $tasks;
+    }
+    
+    public function getTasksForNextWeek() {
+        $startOfWeek = date('Y-m-d', strtotime('next week'));
+        $endOfWeek = date('Y-m-d', strtotime('next week +6 days'));
+    
+        $query = "SELECT * FROM tasks WHERE DATE(datetime) BETWEEN ? AND ? AND status = 0  ORDER BY datetime";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $startOfWeek, $endOfWeek);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tasks = [];
+        while ($row = $result->fetch_assoc()) {
+            $tasks[] = $row;
+        }
+        $stmt->close();
+        return $tasks;
+    }
+
+    public function getCurrentTasks() {
+        $currentDateTime = date('Y-m-d H:i:s');
+        $query = "SELECT * FROM tasks WHERE datetime >= ? AND status = 0  ORDER BY datetime";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $currentDateTime);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tasks = [];
+        while ($row = $result->fetch_assoc()) {
+            $tasks[] = $row;
+        }
+        $stmt->close();
+        return $tasks;
+    }
+
 }
+?>

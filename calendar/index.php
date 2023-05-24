@@ -30,14 +30,26 @@ switch ($action) {
     case 'deleteTask':
         $controller->deleteTask();
         break;
-    case 'completedTasks':
-        $controller->completedTasks();
-        break;
     case 'markTaskComplete':
         $controller->markTaskComplete();
         break;
-    case 'overdueTasks':
-        $controller->overdueTasks();
+    case 'todayTasks':
+        $controller->showTodayTasks();
+        break;
+    case 'tomorrowTasks':
+        $controller->showTomorrowTasks();
+        break;
+    case 'currentWeekTasks':
+    $controller->showCurrentWeekTasks();
+    break;
+    case 'nextWeekTasks':
+        $controller->showNextWeekTasks();
+        break;
+    case 'searchTasks':
+        $controller->searchTasks($_GET['date']);
+        break;
+    case 'filterTasks':
+        $controller->filterTasks($_GET['filter']);
         break;
     default:
         $controller->index();
